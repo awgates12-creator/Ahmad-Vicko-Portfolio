@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antariksa Foto</title>
+    <title>Ahmad Vicko-Portfolio</title>
     <link rel="icon" type="image/png" href="./logo antariksa foto.png">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -560,14 +560,68 @@
     text-transform: uppercase;
     border-radius: 2px;
 }
+        /* === LIGHTBOX POPUP === */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+    border: 3px solid var(--gold);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    animation: zoomIn 0.4s ease;
+    border-radius: 4px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 3rem;
+    color: var(--gold);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.lightbox-close:hover {
+    transform: rotate(90deg);
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
     </style>
 </head>
+    
 <body>
 
     <header id="navbar">
         <a href="#home" class="nav-brand">
             <img src="img/logo antariksa foto.webp" class="logo-img">
-            <span>Antariksa Foto</span>
+            <span>My Portfolio</span>
         </a>
         <div class="menu-toggle" id="mobile-menu">
             <i class="fas fa-bars"></i>
@@ -581,6 +635,11 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
     </header>
+    <!-- LIGHTBOX POPUP -->
+<div id="lightbox" class="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-img" src="" alt="Preview">
+</div>
 
     <section id="home">
         <div data-aos="fade-up" data-aos-duration="1500">
@@ -602,7 +661,7 @@
                 <h1><b>About Me</b></h1>
                 <h3>Di Balik Lensa</h3>
                 <br>
-                <p>Selamat datang di Antariksa Foto. Saya adalah seorang fotografer profesional dengan pengalaman lebih dari 4 tahun, berdedikasi untuk mengubah momen berharga menjadi karya seni visual yang abadi.</p>
+                <p>Selamat datang di Portfolio saya. Saya adalah seorang fotografer otodidak dengan pengalaman lebih dari 4 tahun, berdedikasi untuk mengubah momen berharga menjadi karya seni visual yang abadi.</p>
                 <p>Filosofi saya sederhana: <span class="highlight">Elegansi dalam setiap detail</span>. Saya berspesialisasi dalam menangkap emosi yang tulus dengan sentuhan sinematik dan pencahayaan yang dramatis. Baik itu pernikahan impian, wisuda yang membanggakan, atau potret editorial.</p>
                 <p>Bagi saya, fotografi bukan sekadar menekan tombol rana, tetapi tentang menciptakan warisan visual yang akan Anda hargai selamanya.</p>
             </div>
@@ -867,7 +926,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2023 Antariksa Foto. All rights reserved.</p>
+        <p>&copy; 2023 AhmadVicko. All rights reserved.</p>
     </footer>
 
 
@@ -981,6 +1040,30 @@
                 }
             });
         });
+        /* === GALLERY LIGHTBOX SCRIPT === */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.querySelector('.lightbox-img');
+const closeBtn = document.querySelector('.lightbox-close');
+
+galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const imgSrc = item.querySelector('img').src;
+        lightboxImg.src = imgSrc;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden'; // lock scroll
+    });
+});
+
+// Close lightbox
+closeBtn.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
 
     </script>
 </body>
